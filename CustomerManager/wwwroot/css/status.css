@@ -1,0 +1,84 @@
+﻿
+
+.pending {
+    background-color: #ffbc34;
+    display: block;
+    margin-bottom: 0;
+    position: relative;
+    min-width: 107px;
+    color: white;
+    text-align: center;
+}
+
+.approved {
+    background-color: #28a745;
+    display: block;
+    margin-bottom: 0;
+    position: relative;
+    min-width: 107px;
+    color: white;
+    text-align: center;
+}
+
+.suspended {
+    background-color: #e84646;
+    display: block;
+    margin-bottom: 0;
+    position: relative;
+    min-width: 107px;
+    color: white;
+    text-align: center;
+}
+
+.deleted {
+    background-color: #2b4b41;
+    display: block;
+    margin-bottom: 0;
+    position: relative;
+    min-width: 107px;
+    color: white;
+    text-align: center;
+}
+
+
+
+
+
+
+
+
+.status-active {
+    background-color: #26b99a;
+    border-radius: 9px;
+    display: flex;
+    height: 24px;
+    margin-bottom: 0;
+    position: relative;
+    color: white;
+}
+
+.status-Inactive {
+    background-color: #e84646;
+    border-radius: 9px;
+    display: flex;
+    height: 24px;
+    margin-bottom: 0;
+    position: relative;
+    color: white;
+}
+
+
+
+
+
+.uploaded {
+    background-color: #55ce63;
+    /*    border-radius: 9px;*/
+    display: block;
+    height: 24px;
+    margin-bottom: 0;
+    position: relative;
+    min-width: 107px;
+    color: white;
+    text-align: center;
+}

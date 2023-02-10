@@ -1,0 +1,36 @@
+﻿.success {
+    background: #26B99A;
+    color: #fff;
+}
+
+.danger {
+    color: #fff;
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.Header {
+    font-weight: 600;
+    color: #45ca9f;
+    font-size: 0.9rem;
+    max-width: calc(100% - 40px);
+}
+
+
+.loader {
+    position: fixed;
+    width: 256px;
+    height: 256px;
+    top: 50%;
+    left: 50%;
+    margin: -128px 0 0 -128px;
+    z-index: 1000;
+}
+
+.Title {
+    font-weight: 600;
+    color: #45ca9f;
+    font-size: 1.5rem;
+    line-height: 70px;
+    max-width: calc(100% - 40px);
+}
