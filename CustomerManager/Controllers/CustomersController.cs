@@ -19,9 +19,27 @@ namespace CustomerManager.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            var customers = await customerRepository.GetAll();
+            try
+            {
+                var user = await userManager.FindByEmailAsync(User.Identity.Name);
 
-            return View(customers);
+                if (user.Email == null || user.Email == "")
+                {
+                    return RedirectToAction("Login", "Account", new { area = "" });
+
+                }
+                var customers = await customerRepository.GetAll();
+
+                return View(customers);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+
+                TempData["Error"] = "Something went wrong ,please contact system admin for assistance";
+
+                return RedirectToAction("Login", "Account", new { area = "" });
+            }
         }
         public async Task<IActionResult> Create(CustomerDTO customerDTO)
         {
