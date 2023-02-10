@@ -5,6 +5,7 @@ namespace CustomerManager.BLL.Repositories.CustomerModule
 {
     public interface ICustomerRepository
     {
+        Task<CustomerDTO> AddCustomer(CustomerDTO customerDTO);
         Task<CustomerDTO> Create(CustomerDTO customerDTO);
         Task<bool> DeleteCustomer(int CustomerId);
         Task<List<CustomerDTO>> GetAll();

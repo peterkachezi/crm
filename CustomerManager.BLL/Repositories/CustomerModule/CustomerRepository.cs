@@ -18,43 +18,55 @@ namespace CustomerManager.BLL.Repositories.CustomerModule
 
             this.mapper = mapper;
         }
-
-        public async Task<int> AddCustomer(CustomerDTO customerDTO)
+        public async Task<CustomerDTO> AddCustomer(CustomerDTO customerDTO)
         {
-            var parameter = new List<SqlParameter>
+            try
+            {
+                var parameter = new List<SqlParameter>
             {
                 new SqlParameter("@FirstName", customerDTO.FirstName),
-
                 new SqlParameter("@LastName", customerDTO.LastName),
-
                 new SqlParameter("@EmailAddress", customerDTO.EmailAddress),
-
                 new SqlParameter("@PhoneNumber", customerDTO.PhoneNumber),
-
                 new SqlParameter("@Designation", customerDTO.Designation),
-
                 new SqlParameter("@Company", customerDTO.Company),
-
                 new SqlParameter("@City", customerDTO.City),
-
                 new SqlParameter("@CollegeName", customerDTO.CollegeName),
-
                 new SqlParameter("@State", customerDTO.State),
-
-                new SqlParameter("@CreatedDate", customerDTO.CreatedDate),
-
-                new SqlParameter("@ModifiedDate", customerDTO.ModifiedDate),
-
-                new SqlParameter("@ModifidBy", customerDTO.ModifidBy),
-
+                new SqlParameter("@CreatedDate", DateTime.Now),
+                new SqlParameter("@ModifiedDate", DateTime.Now),
+                new SqlParameter("@ModifidBy ", DBNull.Value),
+                new SqlParameter("@Source", customerDTO.Source),
                 new SqlParameter("@IsActive", customerDTO.IsActive),
+                new SqlParameter("@CreatedBy", customerDTO.CreatedBy),
             };
 
-            var result = await Task.Run(() => context.Database
+                var result = await Task.Run(() => context.Database
+               .ExecuteSqlRawAsync(@"exec AddNewCustomer 
+                                        @FirstName,
+		                                @LastName,
+		                                @EmailAddress,
+		                                @PhoneNumber,
+		                                @Designation,
+		                                @Company,
+		                                @City,
+		                                @CollegeName,
+		                                @State,
+		                                @CreatedDate,
+		                                @ModifiedDate,
+		                                @ModifidBy,
+		                                @Source,
+		                                @IsActive,
+		                                @CreatedBy
+                                        ", parameter.ToArray()));
+                return customerDTO;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
 
-           .ExecuteSqlRawAsync(@"exec AddNewProduct @FirstName, @LastName, @EmailAddress, @PhoneNumber,@Designation,@Company,@City,@CollegeName,@State,@CreatedDate,@ModifiedDate,@ModifidBy,@IsActive", parameter.ToArray()));
-
-            return result;
+                return null;
+            }
         }
         public async Task<CustomerDTO> Create(CustomerDTO customerDTO)
         {
@@ -163,40 +175,44 @@ namespace CustomerManager.BLL.Repositories.CustomerModule
         {
             try
             {
-                var data = await context.Customers.FindAsync(customerDTO.CustomerID);
+                var parameter = new List<SqlParameter>
+            {
+                new SqlParameter("@CustomerID", customerDTO.CustomerID),
+                new SqlParameter("@FirstName", customerDTO.FirstName),
+                new SqlParameter("@LastName", customerDTO.LastName),
+                new SqlParameter("@EmailAddress", customerDTO.EmailAddress),
+                new SqlParameter("@PhoneNumber", customerDTO.PhoneNumber),
+                new SqlParameter("@Designation", customerDTO.Designation),
+                new SqlParameter("@Company", customerDTO.Company),
+                new SqlParameter("@City", customerDTO.City),
+                new SqlParameter("@CollegeName", customerDTO.CollegeName),
+                new SqlParameter("@State", customerDTO.State),
+                new SqlParameter("@ModifiedDate", DateTime.Now),
+                new SqlParameter("@ModifidBy ", customerDTO.ModifidBy),
+                new SqlParameter("@Source", customerDTO.Source),
+                new SqlParameter("@IsActive", customerDTO.IsActive)
+            };
 
-                if (data != null)
-                {
-                    using (var transaction = context.Database.BeginTransaction())
-                    {
-                        data.FirstName = customerDTO.FirstName;
+                var result = await Task.Run(() => context.Database
+                   .ExecuteSqlRawAsync(@"exec UpdateCustomer 
+                                        @CustomerID,
+                                        @FirstName,
+		                                @LastName,
+		                                @EmailAddress,
+		                                @PhoneNumber,
+		                                @Designation,
+		                                @Company,
+		                                @City,
+		                                @CollegeName,
+		                                @State,		                              
+		                                @ModifiedDate,
+		                                @ModifidBy,
+		                                @Source,
+		                                @IsActive
+		                               
+                                        ", parameter.ToArray()));
 
-                        data.LastName = customerDTO.LastName;
-
-                        data.IsActive = customerDTO.IsActive;
-
-                        data.PhoneNumber = customerDTO.PhoneNumber;
-
-                        data.EmailAddress = customerDTO.EmailAddress;
-
-                        data.ModifiedDate = DateTime.Now;
-
-                        data.ModifidBy = customerDTO.ModifidBy;
-
-                        data.Designation = customerDTO.Designation;
-
-                        data.Company = customerDTO.Company;
-
-                        data.City = customerDTO.City;
-
-                        transaction.Commit();
-                    }
-                    await context.SaveChangesAsync();
-
-                    return customerDTO;
-                }
-
-                return null;
+                return customerDTO;
             }
             catch (Exception ex)
             {
@@ -205,5 +221,6 @@ namespace CustomerManager.BLL.Repositories.CustomerModule
                 return null;
             }
         }
+               
     }
 }

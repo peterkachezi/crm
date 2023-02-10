@@ -35,7 +35,7 @@ namespace CustomerManager.Controllers
 
                 customerDTO.CreatedBy = user.Id;
 
-                var result = await customerRepository.Create(customerDTO);
+                var result = await customerRepository.AddCustomer(customerDTO);
 
                 if (result != null)
                 {

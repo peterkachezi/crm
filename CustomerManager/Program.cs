@@ -60,7 +60,7 @@ app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllerRoute(
     name: "Customers",
-    pattern: "{controller=Customers}/{action=Index}/{id?}");
+    pattern: "{controller=Dashboard}/{action=Index}/{id?}");
 
 
     endpoints.MapControllerRoute(
